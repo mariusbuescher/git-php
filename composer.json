@@ -1,0 +1,25 @@
+{
+    "name": "gitdown-docs/git",
+    "description": "A low level API for git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marius Büscher",
+            "email": "marius.buescher@gmx.de"
+        }
+    ],
+    "require": {
+        "symfony/process": ">=2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "GitdownDocs\\Git\\": "src/GitdownDocs/Git/"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    }
+}
