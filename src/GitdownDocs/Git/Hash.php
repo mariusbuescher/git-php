@@ -8,7 +8,7 @@ namespace GitdownDocs\Git;
  * @package GitdownDocs\Git
  * @author Marius Büscher <marius.buescher@gmx.de>
  */
-class Hash
+abstract class Hash
 {
     /**
      * The repository
@@ -23,12 +23,6 @@ class Hash
      * @var string
      */
     protected $objectHash;
-
-    public function __construct(Repository $repository, $objectHash)
-    {
-        $this->repository = $repository;
-        $this->objectHash = $objectHash;
-    }
 
     /**
      * Returns the object hash
