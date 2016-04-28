@@ -12,7 +12,7 @@
 
     <testsuites>
         <testsuite name="Gitdown Docs Git Test Suite">
-            <directory>./src/GitdownDocs/Git/Tests/</directory>
+            <directory>./tests/GitdownDocs/Git/Tests/</directory>
         </testsuite>
     </testsuites>
 
@@ -20,7 +20,7 @@
         <whitelist>
             <directory>./src/</directory>
             <exclude>
-                <directory>./src/GitdownDocs/Git/Tests</directory>
+                <directory>./tests/GitdownDocs/Git/Tests</directory>
             </exclude>
         </whitelist>
     </filter>
