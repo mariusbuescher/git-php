@@ -12,7 +12,7 @@ use GitdownDocs\Git\Process;
 */
 class Repository
 {
-    use GitShell;
+    use Shell;
 
     /**
      * The git directory
