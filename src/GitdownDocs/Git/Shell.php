@@ -26,6 +26,13 @@ trait Shell
     protected $baseDirectory = '';
 
     /**
+     * The command
+     *
+     * @var string
+     **/
+    protected $command;
+
+    /**
      * Gets the value of process.
      *
      * @return Process

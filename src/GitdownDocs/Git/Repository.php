@@ -28,6 +28,11 @@ class Repository
      **/
     protected $workingTree = '.';
 
+    public function __construct()
+    {
+        $this->command = 'git';
+    }
+
     /**
      * Returns the git directory
      *
