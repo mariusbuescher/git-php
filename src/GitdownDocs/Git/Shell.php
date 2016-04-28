@@ -33,6 +33,13 @@ trait Shell
     protected $command;
 
     /**
+     * The arguments
+     *
+     * @var array
+     */
+    protected $args = array();
+
+    /**
      * Gets the value of process.
      *
      * @return Process
@@ -87,6 +94,42 @@ trait Shell
         }
 
         $process->setWorkingDirectory($baseDirectory);
+
+        return $this;
+    }
+
+    /**
+     * Returns the arguments
+     *
+     * @return Array
+     **/
+    public function getArguments()
+    {
+        return $this->args;
+    }
+
+    /**
+     * Adds an argument to the arguments
+     *
+     * @param string $argument The argument
+     * @return self
+     */
+    public function addArgument($argument)
+    {
+        array_push($this->args, $argument);
+
+        return $this;
+    }
+
+    /**
+     * Adds several arguments
+     *
+     * @param Array $arguments The arguments
+     * @return self
+     **/
+    public function addArguments(Array $arguments)
+    {
+        $this->args = array_merge($this->args, $arguments);
 
         return $this;
     }

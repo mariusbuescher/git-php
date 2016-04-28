@@ -104,5 +104,85 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedBaseDirectory, $process->getBaseDirectory());
     }
+
+    /**
+     * Tests the default arguments
+     *
+     * @return void
+     **/
+    public function testDefaultArguments()
+    {
+        $testProcess = $this->getMockBuilder('Symfony\Component\Process\Process')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $shell = $this->getObjectForTrait('GitdownDocs\\Git\\Shell');
+        $shell->setProcess($testProcess);
+
+        $this->assertInternalType('array', $shell->getArguments());
+        $this->assertEmpty($shell->getArguments());
+    }
+
+    /**
+     * Tests the add argument method
+     *
+     * @return void
+     **/
+    public function testAddArgument()
+    {
+        $testProcess = $this->getMockBuilder('Symfony\Component\Process\Process')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $expectedArgument = '--git-dir=test.git/';
+
+        $shell = $this->getObjectForTrait('GitdownDocs\\Git\\Shell');
+        $shell->setProcess($testProcess);
+
+        $shell->addArgument($expectedArgument);
+
+        $this->assertContains($expectedArgument, $shell->getArguments());
+    }
+
+    /**
+     * Tests the add argument method
+     *
+     * @return void
+     **/
+    public function testAddArguments()
+    {
+        $testProcess = $this->getMockBuilder('Symfony\Component\Process\Process')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $expectedArgument = '--git-dir=test.git/';
+        $expectedAdditionalArgumentA = '--working-dir=./';
+        $expectedAdditionalArgumentB = 'status';
+
+        $shell = $this->getObjectForTrait('GitdownDocs\\Git\\Shell');
+        $shell->setProcess($testProcess);
+
+        $shell->addArgument($expectedArgument);
+        $shell->addArguments(array($expectedAdditionalArgumentA, $expectedAdditionalArgumentB));
+
+        $this->assertContains($expectedArgument, $shell->getArguments());
+        $this->assertContains($expectedAdditionalArgumentA, $shell->getArguments());
+        $this->assertContains($expectedAdditionalArgumentB, $shell->getArguments());
+    }
+
+    /**
+     * Tests the run method
+     *
+     * @return void
+     */
+    public function testRun()
+    {
+        $testProcess = $this->getMockBuilder('Symfony\Component\Process\Process')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $process = $this->getObjectForTrait('GitdownDocs\\Git\\Shell');
+        $process->setProcess($testProcess);
+    }
 }
 ?>
