@@ -20,7 +20,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      **/
     public function testDefaultGitDirectory()
     {
-        $repository = new Repository();
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $repository = new Repository($process);
 
         $this->assertEquals('.git', $repository->getGitDirectory());
     }
@@ -32,8 +36,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      **/
     public function testGitDirectory()
     {
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
         $expectedGitDirectory = 'foo/bar.git';
-        $repository = new Repository();
+
+        $repository = new Repository($process);
 
         $repository->setGitDirectory($expectedGitDirectory);
 
@@ -47,7 +55,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      **/
     public function testDefaultWorkingTree()
     {
-        $repository = new Repository();
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $repository = new Repository($process);
 
         $this->assertEquals('.', $repository->getWorkingTree());
     }
@@ -59,8 +71,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      **/
     public function testWorkingTree()
     {
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
         $expectedWorkingTree = 'foo/bar';
-        $repository = new Repository();
+
+        $repository = new Repository($process);
 
         $repository->setWorkingTree($expectedWorkingTree);
 

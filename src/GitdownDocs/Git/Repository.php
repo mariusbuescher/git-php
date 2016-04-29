@@ -2,7 +2,7 @@
 
 namespace GitdownDocs\Git;
 
-use GitdownDocs\Git\Process;
+use Symfony\Component\Process\Process;
 
 /**
 * The repository class
@@ -12,8 +12,6 @@ use GitdownDocs\Git\Process;
 */
 class Repository
 {
-    use Shell;
-
     /**
      * The git directory
      *
@@ -28,8 +26,16 @@ class Repository
      **/
     protected $workingTree = '.';
 
-    public function __construct()
+    /**
+     * The process
+     *
+     * @var string
+     **/
+    protected $process;
+
+    public function __construct(Process $process)
     {
+        $this->process = $process;
         $this->command = 'git';
     }
 
