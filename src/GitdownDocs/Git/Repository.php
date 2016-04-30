@@ -86,6 +86,31 @@ class Repository
 
         return $this;
     }
+
+    /**
+     * Runs a git command
+     *
+     * @param string $command The command to run
+     * @return void
+     **/
+    public function runCommand($command)
+    {
+        $exitCode = $this->process->setCommandline($this->buildCommandline($command))
+                                  ->mustRun();
+
+        return $this->process->getOutput();
+    }
+
+    /**
+     * Builds the commandline
+     *
+     * @param string $command The git command
+     * @return string
+     **/
+    private function buildCommandline($command)
+    {
+        return 'git ' . '--git-dir=' . $this->gitDirectory . ' --work-tree=' . $this->workingTree . ' ' . $command;
+    }
 }
 
 ?>

@@ -82,5 +82,34 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedWorkingTree, $repository->getWorkingTree());
     }
+
+    /**
+     * Tests the run command method
+     *
+     * @return void
+     **/
+    public function testRunCommand()
+    {
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $command = 'log';
+
+        $process->expects($this->once())
+                ->method('setCommandline')
+                ->with('git --git-dir=.git --work-tree=. ' . $command)
+                ->willReturn($process);
+
+        $process->expects($this->once())
+                ->method('mustRun');
+
+        $process->method('getOutput')
+                ->willReturn('test');
+
+        $repository = new Repository($process);
+
+        $this->assertEquals('test', $repository->runCommand($command));
+    }
 }
 ?>
