@@ -105,6 +105,7 @@ class Repository
      * Builds the commandline
      *
      * @param string $command The git command
+     * @throws ProcessFailedException If the command run failed the process failed exception is thrown
      * @return string
      **/
     private function buildCommandline($command)
