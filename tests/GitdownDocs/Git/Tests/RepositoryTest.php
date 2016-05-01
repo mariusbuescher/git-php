@@ -111,5 +111,37 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('test', $repository->runCommand($command));
     }
+
+    /**
+     * Tests the get blob method
+     *
+     * @return void
+     */
+    public function testGetBlob()
+    {
+        $fakeObjectHash = 'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391';
+
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $process->expects($this->once())
+                ->method('setCommandline')
+                ->with('git --git-dir=.git --work-tree=. cat-file -t ' . $fakeObjectHash)
+                ->willReturn($process);
+
+        $process->expects($this->once())
+                ->method('mustRun');
+
+        $process->method('getOutput')
+                ->willReturn('blob');
+
+        $repository = new Repository($process);
+
+        $this->assertInstanceOf(
+            'GitdownDocs\\Git\\Hash\\Blob',
+            $repository->getBlob($fakeObjectHash)
+        );
+    }
 }
 ?>

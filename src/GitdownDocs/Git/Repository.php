@@ -3,6 +3,7 @@
 namespace GitdownDocs\Git;
 
 use Symfony\Component\Process\Process;
+use GitdownDocs\Git\Hash\Blob;
 
 /**
 * The repository class
@@ -99,6 +100,17 @@ class Repository
                                   ->mustRun();
 
         return $this->process->getOutput();
+    }
+
+    /**
+     * Returns an object hash
+     *
+     * @param string $ObjectHash The blobs object hash
+     * @return Blob
+     **/
+    public function getBlob($objectHash)
+    {
+        return Blob::fromObjectHash($this, $objectHash);
     }
 
     /**
