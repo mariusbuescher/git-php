@@ -61,5 +61,21 @@ class Blob extends Hash
 
         return $this->content;
     }
+
+    /**
+     * Sets the content
+     *
+     * @param string $content The new content
+     * @return self
+     **/
+    public function setContent($content)
+    {
+        if ($this->getContent() !== $content) {
+            $this->content = $content;
+            $this->objectHash = '';
+        }
+
+        return $this;
+    }
 }
 ?>
