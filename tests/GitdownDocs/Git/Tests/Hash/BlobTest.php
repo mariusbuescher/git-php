@@ -208,5 +208,33 @@ class BlobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($fakeContent, $blob->getContent());
         $this->assertEquals($fakeObjectHash, $blob->getObjectHash());
     }
+
+    /**
+     * Tests the save method
+     *
+     * @return void
+     **/
+    public function testSaveBlob()
+    {
+        $fakeObjectHash = '980a0d5f19a64b4b30a87d4206aade58726b60e3';
+        $fakeContent = 'Hello World!';
+
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $repository->expects($this->once())
+                   ->method('runCommand')
+                   ->with('hash-object --stdin -w', $fakeContent)
+                   ->willReturn($fakeObjectHash);
+
+        $blob = Blob::fromObjectHash($repository);
+
+        $blob->setContent($fakeContent);
+        $blob->save();
+
+        $this->assertEquals($fakeContent, $blob->getContent());
+        $this->assertEquals($fakeObjectHash, $blob->getObjectHash());
+    }
 }
 ?>

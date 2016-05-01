@@ -55,7 +55,7 @@ class Blob extends Hash
      **/
     public function getContent()
     {
-        if ($this->content === null) {
+        if ($this->content === null && $this->getObjectHash() !== '') {
             $this->content = $this->repository->runCommand('cat-file -p ' . $this->objectHash);
         }
 
@@ -74,6 +74,18 @@ class Blob extends Hash
             $this->content = $content;
             $this->objectHash = '';
         }
+
+        return $this;
+    }
+
+    /**
+     * Saves the blob
+     *
+     * @return self
+     **/
+    public function save()
+    {
+        $this->objectHash = $this->repository->runCommand('hash-object --stdin -w', $this->getContent());
 
         return $this;
     }
