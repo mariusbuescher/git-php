@@ -73,6 +73,25 @@ class BlobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the constructor without a hash
+     *
+     * @return void
+     **/
+    public function testConstructorWithoutHash()
+    {
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $repository->method('runCommand')
+                   ->willReturn('blob');
+
+        $blob = Blob::fromObjectHash($repository);
+
+        $this->assertInstanceOf('GitdownDocs\\Git\\Hash\\Blob', $blob);
+    }
+
+    /**
      * Tests the get content method
      *
      * @return void

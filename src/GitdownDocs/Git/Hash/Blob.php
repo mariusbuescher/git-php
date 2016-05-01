@@ -43,7 +43,7 @@ class Blob extends Hash
      * @param string     $objectHash The object hash
      * @return self
      */
-    public static function fromObjectHash(Repository $repository, $objectHash)
+    public static function fromObjectHash(Repository $repository, $objectHash = '')
     {
         return new self($repository, $objectHash);
     }
