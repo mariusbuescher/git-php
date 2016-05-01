@@ -15,6 +15,13 @@ class Blob extends Hash
 {
     const HASH_TYPE = 'blob';
 
+    /**
+     * The content
+     *
+     * @var string
+     **/
+    private $content;
+
     private function __construct(Repository $repository, $objectHash = '')
     {
         $this->repository = $repository;
@@ -48,7 +55,11 @@ class Blob extends Hash
      **/
     public function getContent()
     {
-        return $this->repository->runCommand('cat-file -p ' . $this->objectHash);
+        if ($this->content === null) {
+            $this->content = $this->repository->runCommand('cat-file -p ' . $this->objectHash);
+        }
+
+        return $this->content;
     }
 }
 ?>

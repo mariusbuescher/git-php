@@ -101,5 +101,36 @@ class BlobTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($fakeContent, $blob->getContent());
     }
+
+    /**
+     * Tests the get content methods cache
+     *
+     * @return void
+     **/
+    public function testGetContentMultipleTimes()
+    {
+        $fakeObjectHash = '980a0d5f19a64b4b30a87d4206aade58726b60e3';
+        $fakeContent = 'Hello World!';
+
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $repository->expects($this->exactly(2))
+                   ->method('runCommand')
+                   ->withConsecutive(
+                        array('cat-file -t ' . $fakeObjectHash),
+                        array('cat-file -p ' . $fakeObjectHash)
+                    )
+                   ->will($this->returnValueMap(array(
+                        array('cat-file -t ' . $fakeObjectHash, 'blob'),
+                        array('cat-file -p ' . $fakeObjectHash, $fakeContent)
+                    )));
+
+        $blob = Blob::fromObjectHash($repository, $fakeObjectHash);
+
+        $this->assertEquals($fakeContent, $blob->getContent());
+        $this->assertEquals($fakeContent, $blob->getContent());
+    }
 }
 ?>
