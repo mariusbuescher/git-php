@@ -112,6 +112,37 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $repository->runCommand($command));
     }
 
+     /**
+     * Tests the run command method with input
+     *
+     * @return void
+     **/
+    public function testRunCommandWithInput()
+    {
+        $fakeInput = 'Test';
+
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $command = 'hash-object --stdin';
+
+        $process->expects($this->once())
+                ->method('setCommandline')
+                ->with('echo "' . $fakeInput . '"|git --git-dir=.git --work-tree=. ' . $command)
+                ->willReturn($process);
+
+        $process->expects($this->once())
+                ->method('mustRun');
+
+        $process->method('getOutput')
+                ->willReturn('test');
+
+        $repository = new Repository($process);
+
+        $this->assertEquals('test', $repository->runCommand($command, $fakeInput));
+    }
+
     /**
      * Tests the get blob method
      *

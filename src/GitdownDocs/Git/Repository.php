@@ -92,11 +92,12 @@ class Repository
      * Runs a git command
      *
      * @param string $command The command to run
+     * @param string $input   The input
      * @return void
      **/
-    public function runCommand($command)
+    public function runCommand($command, $input = '')
     {
-        $exitCode = $this->process->setCommandline($this->buildCommandline($command))
+        $exitCode = $this->process->setCommandline($this->buildCommandline($command, $input))
                                   ->mustRun();
 
         return $this->process->getOutput();
@@ -117,12 +118,20 @@ class Repository
      * Builds the commandline
      *
      * @param string $command The git command
-     * @throws ProcessFailedException If the command run failed the process failed exception is thrown
+     * @param string $input   The input
      * @return string
      **/
-    private function buildCommandline($command)
+    private function buildCommandline($command, $input = '')
     {
-        return 'git ' . '--git-dir=' . $this->gitDirectory . ' --work-tree=' . $this->workingTree . ' ' . $command;
+        $buildCommand = '';
+
+        if ($input !== '') {
+            $buildCommand = 'echo "' . $input . '"|';
+        }
+
+        $buildCommand .= 'git ' . '--git-dir=' . $this->gitDirectory . ' --work-tree=' . $this->workingTree . ' ' . $command;
+
+        return $buildCommand;
     }
 }
 

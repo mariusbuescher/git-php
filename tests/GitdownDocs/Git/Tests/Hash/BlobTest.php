@@ -112,8 +112,8 @@ class BlobTest extends \PHPUnit_Framework_TestCase
                         array('cat-file -p ' . $fakeObjectHash)
                     )
                    ->will($this->returnValueMap(array(
-                        array('cat-file -t ' . $fakeObjectHash, 'blob'),
-                        array('cat-file -p ' . $fakeObjectHash, $fakeContent)
+                        array('cat-file -t ' . $fakeObjectHash, '', 'blob'),
+                        array('cat-file -p ' . $fakeObjectHash, '', $fakeContent)
                     )));
 
         $blob = Blob::fromObjectHash($repository, $fakeObjectHash);
@@ -142,8 +142,8 @@ class BlobTest extends \PHPUnit_Framework_TestCase
                         array('cat-file -p ' . $fakeObjectHash)
                     )
                    ->will($this->returnValueMap(array(
-                        array('cat-file -t ' . $fakeObjectHash, 'blob'),
-                        array('cat-file -p ' . $fakeObjectHash, $fakeContent)
+                        array('cat-file -t ' . $fakeObjectHash, '', 'blob'),
+                        array('cat-file -p ' . $fakeObjectHash, '', $fakeContent)
                     )));
 
         $blob = Blob::fromObjectHash($repository, $fakeObjectHash);
@@ -197,8 +197,8 @@ class BlobTest extends \PHPUnit_Framework_TestCase
                         array('cat-file -p ' . $fakeObjectHash)
                     )
                    ->will($this->returnValueMap(array(
-                        array('cat-file -t ' . $fakeObjectHash, 'blob'),
-                        array('cat-file -p ' . $fakeObjectHash, $fakeContent)
+                        array('cat-file -t ' . $fakeObjectHash, '', 'blob'),
+                        array('cat-file -p ' . $fakeObjectHash, '', $fakeContent)
                     )));
 
         $blob = Blob::fromObjectHash($repository, $fakeObjectHash);
