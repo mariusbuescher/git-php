@@ -15,6 +15,8 @@ class Tree extends Hash
 {
     const HASH_TYPE = 'tree';
 
+    private $children = array();
+
     private function __construct(Repository $repository, $objectHash = '')
     {
         $this->repository = $repository;
@@ -39,6 +41,30 @@ class Tree extends Hash
     public static function fromObjectHash(Repository $repository, $objectHash = '')
     {
         return new self($repository, $objectHash);
+    }
+
+    /**
+     * Adds a hashObject
+     *
+     * @param Hash $hashObject The hash object
+     * @param string $path The path where to add the hash object
+     * @return self
+     */
+    public function addHashObject(Hash $hashObject, $path)
+    {
+        $this->children[$path] = $hashObject;
+
+        return $this;
+    }
+
+    /**
+     * Returns the paths
+     *
+     * @return array
+     */
+    public function getPaths()
+    {
+        return array_keys($this->children);
     }
 }
 ?>

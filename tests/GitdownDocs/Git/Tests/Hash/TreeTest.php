@@ -3,6 +3,7 @@
 namespace GitdownDocs\Git\Tests\Hash;
 
 use GitdownDocs\Git\Hash\Tree;
+use GitdownDocs\Git\Hash\Blob;
 
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
@@ -83,6 +84,31 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $tree = Tree::fromObjectHash($repository);
 
         $this->assertInstanceOf('GitdownDocs\\Git\\Hash\\Tree', $tree);
+    }
+
+    /**
+     * Tests if the tree can add a hash object
+     */
+    public function testAddHashObject()
+    {
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $blob = $this->getMockBuilder('GitdownDocs\\Git\\Hash\\Blob')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
+        $fakePath = 'path';
+
+        $repository->method('runCommand')
+                   ->willReturn('tree');
+
+        $tree = Tree::fromObjectHash($repository);
+
+        $tree->addHashObject($blob, $fakePath);
+
+        $this->assertContains($fakePath, $tree->getPaths());
     }
 }
 
