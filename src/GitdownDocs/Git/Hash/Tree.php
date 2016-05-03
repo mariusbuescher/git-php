@@ -66,5 +66,16 @@ class Tree extends Hash
     {
         return array_keys($this->children);
     }
+
+    /**
+     * Returns the hash object at a given path
+     *
+     * @param string $path The path
+     * @return Hash
+     */
+    public function getPath($path)
+    {
+        return $this->children[$path];
+    }
 }
 ?>

@@ -110,6 +110,33 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains($fakePath, $tree->getPaths());
     }
+
+    /**
+     * Tests the getPath method
+     *
+     * @return void
+     */
+    public function testGetPath()
+    {
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $blob = $this->getMockBuilder('GitdownDocs\\Git\\Hash\\Blob')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
+        $fakePath = 'path';
+
+        $repository->method('runCommand')
+                   ->willReturn('tree');
+
+        $tree = Tree::fromObjectHash($repository);
+
+        $tree->addHashObject($blob, $fakePath);
+
+        $this->assertEquals($blob, $tree->getPath($fakePath));
+    }
 }
 
 ?>
