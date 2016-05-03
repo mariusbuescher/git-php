@@ -137,6 +137,35 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($blob, $tree->getPath($fakePath));
     }
+
+    /**
+     * Tests the add path mehtod with a deep path
+     *
+     * @return void
+     */
+    public function testAddDeepPath()
+    {
+        $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+
+        $blob = $this->getMockBuilder('GitdownDocs\\Git\\Hash\\Blob')
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
+        $fakePath = 'path';
+        $fakePathAddition = 'fake';
+
+        $repository->method('runCommand')
+                   ->willReturn('tree');
+
+        $tree = Tree::fromObjectHash($repository);
+
+        $tree->addHashObject($blob, $fakePath . DIRECTORY_SEPARATOR . $fakePathAddition);
+
+        $this->assertInstanceOf('GitdownDocs\\Git\\Hash\\Tree', $tree->getPath($fakePath));
+        $this->assertEquals($blob, $tree->getPath($fakePath . DIRECTORY_SEPARATOR . $fakePathAddition));
+    }
 }
 
 ?>

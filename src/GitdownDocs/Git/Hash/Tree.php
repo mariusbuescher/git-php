@@ -52,7 +52,20 @@ class Tree extends Hash
      */
     public function addHashObject(Hash $hashObject, $path)
     {
-        $this->children[$path] = $hashObject;
+        $pathParts = explode(DIRECTORY_SEPARATOR, $path);
+
+        $directHashObject = $hashObject;
+        if (count($pathParts) > 1) {
+            $directHashObject = new self($this->repository);
+            $path = array_shift($pathParts);
+            $newPath = implode(
+                DIRECTORY_SEPARATOR,
+                $pathParts
+            );
+            $directHashObject->addHashObject($hashObject, $newPath);
+        }
+
+        $this->children[$path] = $directHashObject;
 
         return $this;
     }
@@ -75,7 +88,17 @@ class Tree extends Hash
      */
     public function getPath($path)
     {
-        return $this->children[$path];
+        $pathParts = explode(DIRECTORY_SEPARATOR, $path);
+
+        if (count($pathParts) === 1) {
+            $result = $this->children[$path];
+        } else {
+            $result = $this->children[array_shift($pathParts)]
+                           ->getPath(implode(DIRECTORY_SEPARATOR, $pathParts));
+        }
+
+        return $result;
+    }
     }
 }
 ?>
