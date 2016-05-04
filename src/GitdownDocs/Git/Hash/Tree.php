@@ -99,6 +99,5 @@ class Tree extends Hash
 
         return $result;
     }
-    }
 }
 ?>
