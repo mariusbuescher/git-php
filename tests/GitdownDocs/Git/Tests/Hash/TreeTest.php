@@ -154,9 +154,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                      ->disableOriginalConstructor()
                      ->getMock();
 
-        $repository->method('runCommand')
-                   ->willReturn('tree');
-
         $tree = Tree::fromObjectHash($repository);
 
         $tree->addHashObject($blob, implode(DIRECTORY_SEPARATOR, $pathParts));
