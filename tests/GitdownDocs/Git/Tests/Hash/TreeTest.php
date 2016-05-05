@@ -141,9 +141,10 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the add path mehtod with a deep path
      *
+     * @dataProvider deepPathProvider
      * @return void
      */
-    public function testAddDeepPath()
+    public function testAddDeepPath($pathParts)
     {
         $repository = $this->getMockBuilder('GitdownDocs\\Git\\Repository')
                            ->disableOriginalConstructor()
@@ -153,18 +154,35 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                      ->disableOriginalConstructor()
                      ->getMock();
 
-        $fakePath = 'path';
-        $fakePathAddition = 'fake';
-
         $repository->method('runCommand')
                    ->willReturn('tree');
 
         $tree = Tree::fromObjectHash($repository);
 
-        $tree->addHashObject($blob, $fakePath . DIRECTORY_SEPARATOR . $fakePathAddition);
+        $tree->addHashObject($blob, implode(DIRECTORY_SEPARATOR, $pathParts));
 
-        $this->assertInstanceOf('GitdownDocs\\Git\\Hash\\Tree', $tree->getPath($fakePath));
-        $this->assertEquals($blob, $tree->getPath($fakePath . DIRECTORY_SEPARATOR . $fakePathAddition));
+        for ($i=1; $i < count($pathParts); $i++) {
+            $tempPathParts = array_slice($pathParts, 0, $i);
+            $this->assertInstanceOf('GitdownDocs\\Git\\Hash\\Tree', $tree->getPath(implode(DIRECTORY_SEPARATOR, $tempPathParts)));
+        }
+
+        $this->assertEquals($blob, $tree->getPath(implode(DIRECTORY_SEPARATOR, $pathParts)));
+    }
+
+    /**
+     * data provider for testing deep paths
+     *
+     * @return array The data
+     */
+    public function deepPathProvider()
+    {
+        return array(
+            array(
+                array( 'fake', 'path' ),
+                array( 'fake', 'deep', 'path' ),
+                array( 'fake', 'deep', 'path', 'even', 'deper', 'than', 'before' )
+            )
+        );
     }
 }
 
